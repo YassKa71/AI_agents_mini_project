@@ -42,7 +42,7 @@ def generate_completion(dialog):
         for name, value in dialog["tool_calls"][0]["function"]["arguments"].items():
             argument = {"name": name, "value": value}
             tool_call["arguments"].append(argument)
-            action += str(tool_call)
+        action += str(tool_call)
         completion = {"role": "assistant", "content": thought + "\n" + action}
     return completion
 
@@ -100,7 +100,6 @@ def generate_prompt_completion_dataset(raw_data, clear_df, out_path, prompts):
         system_prompt = generate_system_prompt(task_id, clear_df, prompts)
         dialogs = task["dialogs"]
         samples = prompt_completion_per_task(dialogs, task_id, system_prompt, clear_df)
-        print(samples[0]["task_id"])
         all_samples += samples
     # write each sample in a separate line in the output file
     with out_path.open("w", encoding="utf-8") as out_f:
@@ -115,12 +114,13 @@ if __name__ == "__main__":
     with path.open("r", encoding="utf-8") as f:
         raw_data = json.load(f)
     # load clear GTA dataset
-    clear_df = pd.read_csv("clear_gta.csv")
+    clear_gta_path = RESEARCH_REPO_ROOT / "datasets" / "environment_datasets" / "clear_gta.csv"
+    clear_df = pd.read_csv(clear_gta_path)
     # load prompt files
     prompts_path = RESEARCH_REPO_ROOT / "prompts" / "ReAct_prompts_finetuning.yaml"
     with open(prompts_path) as file:
         prompts = yaml.safe_load(file)
     # create finetuning dataset
-    out_path = RESEARCH_REPO_ROOT / "datasets" / "environment_datasets" / "finetuning_dataset_grpo.jsonl"
+    out_path = RESEARCH_REPO_ROOT / "datasets" / "environment_datasets" / "finetuning_dataset.jsonl"
     generate_prompt_completion_dataset(raw_data, clear_df, out_path, prompts)
 
