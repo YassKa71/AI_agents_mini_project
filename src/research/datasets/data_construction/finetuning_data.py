@@ -34,20 +34,25 @@ def generate_completion(dialog):
         "arguments": []
     }
     if "tool_calls" in dialog.keys():
-        thought = "Thought:\n"
-        if "thought" in dialog.keys():
-            thought += dialog["thought"]
-        action = "Action:\n"
-        tool_call["name"] = dialog["tool_calls"][0]["function"]["name"]
-        for name, value in dialog["tool_calls"][0]["function"]["arguments"].items():
-            argument = {"name": name, "value": value}
-            tool_call["arguments"].append(argument)
-        action += str(tool_call)
-        completion = {"role": "assistant", "content": thought + "\n" + action}
+        tool_name = dialog["tool_calls"][0]["function"]["name"]
+        if tool_name != "ImageDescription":
+            thought = "Thought:\n"
+            if "thought" in dialog.keys():
+                dialog_thought = dialog["thought"].replace("ImageDescription tool", "image description").replace(
+                    "image description tool", "image description"
+                )
+                thought += dialog_thought
+            action = "Action:\n"
+            tool_call["name"] = tool_name
+            for name, value in dialog["tool_calls"][0]["function"]["arguments"].items():
+                argument = {"name": name, "value": value}
+                tool_call["arguments"].append(argument)
+            action += str(tool_call)
+            completion = {"role": "assistant", "content": thought + "\n" + action}
     return completion
 
 def generate_observation(observation):
-    return {"role": "user", "content": observation}
+    return {"role": "user", "content": f'Observation: {observation}'}
 
 def prompt_completion_per_task(dialogs, task_id, system_prompt, clear_df):
     """
@@ -67,7 +72,7 @@ def prompt_completion_per_task(dialogs, task_id, system_prompt, clear_df):
     samples = []
     history = system_prompt
     for dialog in dialogs[1:]:
-        if dialog["role"] == "tool":
+        if dialog["role"] == "tool" and not dialog.get("name") == "ImageDescription":
             observation = generate_observation(dialog["content"]["content"])
             history.append(observation)
         elif dialog["role"] == "assistant":
