@@ -148,11 +148,12 @@ class StaticEnvironment:
                 for requested_argument in requested_tool_arguments:
                     if requested_argument["name"] == argument_name:
                         matching_method = "fuzzy_match"
-                        index_argument = -1
-                        for input_ in tool_meta["inputs"]:
+                        index_argument = 0
+                        for idx, input_ in enumerate(tool_meta["inputs"]):
                             if input_["name"] == argument_name:
+                                index_argument = idx
                                 matching_method = input_["match_type"]
-                            index_argument += 1
+                                break
                         found_argument = self.find_argument(matching_method, requested_argument, argument_value, selected_tool["name"], index_argument)
                         if not found_argument:
                             break
