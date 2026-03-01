@@ -155,8 +155,7 @@ class StaticEnvironment:
                                 matching_method = input_["match_type"]
                                 break
                         found_argument = self.find_argument(matching_method, requested_argument, argument_value, selected_tool["name"], index_argument)
-                        if not found_argument:
-                            break
+                        break
 
             if found_argument is True:
                 found_tool_call = tool_call
