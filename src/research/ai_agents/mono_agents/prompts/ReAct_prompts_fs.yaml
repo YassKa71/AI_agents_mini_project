@@ -32,7 +32,7 @@ system_prompt:
       Action:
       {
         "name": "FinalAnswer",
-        "arguments": [{"name": "answer", "value": "your final result"}]
+        "arguments": [{"name": "final_answer", "value": "your final result"}]
       }
 
       Here are the rules you must always follow:
@@ -139,7 +139,7 @@ system_prompt:
       Action:
       {
         "name": "FinalAnswer",
-        "arguments": [{"name": "answer", "value": "image.png"}]
+        "arguments": [{"name": "final_answer", "value": "image.png"}]
       }
 
   - role: user
@@ -192,7 +192,7 @@ system_prompt:
       Action:
       {
         "name": "FinalAnswer",
-        "arguments": [{"name": "answer", "value": "1302.678"}]
+        "arguments": [{"name": "final_answer", "value": "1302.678"}]
       }
 
   - role: user

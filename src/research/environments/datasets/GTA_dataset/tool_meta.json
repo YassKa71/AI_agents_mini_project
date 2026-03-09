@@ -1,0 +1,212 @@
+{
+  "Calculator": {
+    "description": "\"name\": \"Calculator\",\n\"description\": \"A calculator tool. The input must be a single Python expression and you cannot import packages. You can use functions in the `math` package without import.\",\n\"inputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": \"expression\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "expression": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      }
+    }
+  },
+  "FinalAnswer": {
+    "description": "\"name\": \"FinalAnswer\",\n\"description\": \"This tool returns the final answer to the user.\",\n\"inputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": \"final_answer\",\n    \"description\": \"The answer that will be sent to the user\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": []",
+    "arguments": {
+      "final_answer": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      }
+    }
+  },
+  "OCR": {
+    "description": "\"name\": \"OCR\",\n\"description\": \"This tool can recognize all text on the input image.\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": null,\n    \"description\": \"OCR results, include bbox in x1, y1, x2, y2 format and the recognized text.\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      }
+    }
+  },
+  "CountGivenObject": {
+    "description": "\"name\": \"CountGivenObject\",\n\"description\": \"The tool can count the number of a certain object in the image.\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"text\",\n    \"description\": \"The object description in English.\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"int\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "text": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      }
+    }
+  },
+  "ImageDescription": {
+    "description": "\"name\": \"ImageDescription\",\n\"description\": \"A useful tool that returns a brief description of the input image.\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      }
+    }
+  },
+  "GoogleSearch": {
+    "description": "\"name\": \"GoogleSearch\",\n\"description\": \"The tool can search the input query text from Google and return the related results.\",\n\"inputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": \"query\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"int\",\n    \"name\": \"k\",\n    \"description\": \"Select the first k results\",\n    \"optional\": true,\n    \"default\": 10,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "query": {
+        "type": "str",
+        "optional": false,
+        "match_type": "fuzzy_match"
+      },
+      "k": {
+        "type": "int",
+        "optional": true,
+        "match_type": "no_match"
+      }
+    }
+  },
+  "RegionAttributeDescription": {
+    "description": "\"name\": \"RegionAttributeDescription\",\n\"description\": \"Describe the attribute of a region of the input image.\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"bbox\",\n    \"description\": \"The bbox coordinate in the format of `(x1, y1, x2, y2)`\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"attribute\",\n    \"description\": \"The attribute to describe\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "bbox": {
+        "type": "str",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "attribute": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      }
+    }
+  },
+  "TextToBbox": {
+    "description": "\"name\": \"TextToBbox\",\n\"description\": \"The tool can detect the object location according to description.\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"text\",\n    \"description\": \"The object description in English.\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"bool\",\n    \"name\": \"top1\",\n    \"description\": \"If true, return the object with highest score. If false, return all detected objects.\",\n    \"optional\": true,\n    \"default\": true,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": null,\n    \"description\": \"Detected objects, include bbox in (x1, y1, x2, y2) format, and detection score.\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "text": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      },
+      "top1": {
+        "type": "bool",
+        "optional": true,
+        "match_type": "no_match"
+      }
+    }
+  },
+  "Plot": {
+    "description": "\"name\": \"Plot\",\n\"description\": \"This tool can execute Python code to plot diagrams. The code should include a function named 'solution'. The function should return the matplotlib figure directly. Avoid printing the answer. The code instance format is as follows:\\n\\n```python\\n# import packages\\nimport matplotlib.pyplot as plt\\ndef solution():\\n    # labels and data\\n    cars = ['AUDI', 'BMW', 'FORD', 'TESLA', 'JAGUAR', 'MERCEDES']\\n    data = [23, 17, 35, 29, 12, 41]\\n\\n    # draw diagrams\\n    figure = plt.figure(figsize=(8, 6))\\n    plt.pie(data, labels=cars, autopct='%1.1f%%', startangle=140)\\n    plt.axis('equal')\\n    plt.title('Car Distribution')\\n    return figure\\n```\",\n\"inputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": \"command\",\n    \"description\": \"Markdown format Python code\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "command": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      }
+    }
+  },
+  "MathOCR": {
+    "description": "\"name\": \"MathOCR\",\n\"description\": \"This tool can recognize math expressions from an image and return the latex style expression.\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      }
+    }
+  },
+  "Solver": {
+    "description": "\"name\": \"Solver\",\n\"description\": \"This tool can execute Python code to solve math equations. The code should include a function named 'solution'. You should use the `sympy` library in your code to solve the equations. The function should return its answer in str format. Avoid printing the answer. The code instance format is as follows:\\n\\n```python\\n# import packages\\nfrom sympy import symbols, Eq, solve\\ndef solution():\\n    # Define symbols\\n    x, y = symbols('x y')\\n\\n    # Define equations\\n    equation1 = Eq(x**2 + y**2, 20)\\n    equation2 = Eq(x**2 - 5*x*y + 6*y**2, 0)\\n\\n    # Solve the system of equations\\n    solutions = solve((equation1, equation2), (x, y), dict=True)\\n\\n    # Return solutions as strings\\n    return str(solutions)\\n```\",\n\"inputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": \"command\",\n    \"description\": \"Markdown format Python code\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "command": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      }
+    }
+  },
+  "DrawBox": {
+    "description": "\"name\": \"DrawBox\",\n\"description\": \"A tool to draw a box on a certain region of the input image.\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"bbox\",\n    \"description\": \"The bbox coordinate in the format of `(x1, y1, x2, y2)`\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"annotation\",\n    \"description\": \"The extra annotation text of the bbox\",\n    \"optional\": true,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "bbox": {
+        "type": "str",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "annotation": {
+        "type": "str",
+        "optional": true,
+        "match_type": "fuzzy_match"
+      }
+    }
+  },
+  "AddText": {
+    "description": "\"name\": \"AddText\",\n\"description\": \"A tool to draw a box on a certain region of the input image.\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"text\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"position\",\n    \"description\": \"The left-bottom corner coordinate in the format of `(x, y)`, or a combination of [\\\"l\\\"(left), \\\"m\\\"(middle), \\\"r\\\"(right)] and [\\\"t\\\"(top), \\\"m\\\"(middle), \\\"b\\\"(bottom)] like \\\"mt\\\" for middle-top\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"color\",\n    \"description\": null,\n    \"optional\": true,\n    \"default\": \"red\",\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "text": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      },
+      "position": {
+        "type": "str",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "color": {
+        "type": "str",
+        "optional": true,
+        "match_type": "no_match"
+      }
+    }
+  },
+  "TextToImage": {
+    "description": "\"name\": \"TextToImage\",\n\"description\": \"This tool can generate an image according to the input text.\",\n\"inputs\": [\n  {\n    \"type\": \"text\",\n    \"name\": \"keywords\",\n    \"description\": \"A series of keywords separated by comma.\",\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "keywords": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      }
+    }
+  },
+  "ImageStylization": {
+    "description": "\"name\": \"ImageStylization\",\n\"description\": \"This tool can modify the input image according to the input instruction. Here are some example instructions: \\\"turn him into cyborg\\\", \\\"add fireworks to the sky\\\", \\\"make his jacket out of leather\\\".\",\n\"inputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": \"image\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  },\n  {\n    \"type\": \"text\",\n    \"name\": \"instruction\",\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n],\n\"outputs\": [\n  {\n    \"type\": \"image\",\n    \"name\": null,\n    \"description\": null,\n    \"optional\": false,\n    \"default\": null,\n    \"filetype\": null\n  }\n]",
+    "arguments": {
+      "image": {
+        "type": "image",
+        "optional": false,
+        "match_type": "exact_match"
+      },
+      "instruction": {
+        "type": "str",
+        "optional": false,
+        "match_type": "llm_match"
+      }
+    }
+  }
+}

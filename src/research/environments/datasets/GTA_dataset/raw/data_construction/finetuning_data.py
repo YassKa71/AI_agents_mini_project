@@ -86,7 +86,7 @@ def prompt_completion_per_task(dialogs, task_id, system_prompt, clear_df):
         completion = "Action:\n"
         final_answer = {
             "name": "FinalAnswer",
-            "arguments": [{"name": "answer", "value": sample_clear_df["final_answer"]}]
+            "arguments": [{"name": "final_answer", "value": sample_clear_df["final_answer"]}]
         }
         completion += str(final_answer)
         completion = {"role": "assistant", "content": completion}

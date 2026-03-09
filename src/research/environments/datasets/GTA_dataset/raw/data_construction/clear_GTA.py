@@ -8,6 +8,17 @@ import json
 import pandas as pd
 
 from research.paths import RESEARCH_REPO_ROOT
+from research.environments.dataset_provider import (
+    TOOL_NAMES,
+    TASK_ID, 
+    TOOL_CALLS, 
+    FINAL_ANSWER, 
+    TASK, 
+    INPUTS,
+    ENVIRONMENT_DATASET_PATH,
+    TASKS_PATH)
+
+GTA_DIR_PATH = "GTA_dataset"
 
 
 def retrieve_image_descriptions(sample):
@@ -55,7 +66,7 @@ def extract_tools_final_answer(sample):
     if isinstance(final_answer, dict):
         final_answer = final_answer["whitelist"]
     tools = sample["tools"]
-    filtered_tools = [tool for tool in tools if tool["name"] != "ImageDescription"]
+    filtered_tools = [tool["name"] for tool in tools if tool["name"] != "ImageDescription"]
     return final_answer, filtered_tools
 
 
@@ -82,17 +93,18 @@ def create_dataset(path):
     len_data = len(data.keys())
 
     # create clear_gta
-    clear_gta = {"input": [], "instruction": [], "tools": [], "final_answer": [], "tool_calls": []}
+    clear_gta = {TASK_ID: [], INPUTS: [], TASK: [], TOOL_NAMES: [], FINAL_ANSWER: [], TOOL_CALLS: []}
 
     for data_index in range(len_data):  # loop over all data samples
         sample = data[str(data_index)]
+        clear_gta[TASK_ID].append(data_index)
         # extract images descriptions and add them to input
         descriptions = retrieve_image_descriptions(sample)
-        clear_gta["input"].append(descriptions)
+        clear_gta[INPUTS].append(descriptions)
         # add tools and final answer
         final_answer, filtered_tools = extract_tools_final_answer(sample)
-        clear_gta["tools"].append(json.dumps(filtered_tools))
-        clear_gta["final_answer"].append(final_answer)
+        clear_gta[TOOL_NAMES].append(json.dumps(filtered_tools))
+        clear_gta[FINAL_ANSWER].append(final_answer)
         # add instruction and tool_calls
         instruction = ""
         tool_calls = {}
@@ -122,15 +134,15 @@ def create_dataset(path):
             elif final_tool_call["role"] == "assistant":
                 final_tool_call_name = dialogs[-2]["name"]
             tool_calls[final_tool_call_name][-1]["observation"] = "success"
-        clear_gta["tool_calls"].append(json.dumps(tool_calls))
-        clear_gta["instruction"].append(instruction)
+        clear_gta[TOOL_CALLS].append(json.dumps(tool_calls))
+        clear_gta[TASK].append(instruction)
 
     # create df
     return pd.DataFrame(clear_gta)
 
 
 if __name__ == "__main__":
-    path = RESEARCH_REPO_ROOT / "datasets" / "environment_datasets" / "dataset.json"  # ADD path to the gta dataset
+    path = ENVIRONMENT_DATASET_PATH / GTA_DIR_PATH / "raw" / "raw_gta_dataset.json"  # ADD path to the gta dataset
     clear_gta_df = create_dataset(path)
-    output_path = RESEARCH_REPO_ROOT / "datasets" / "environment_datasets" / "clear_gta.csv"  # ADD output path
+    output_path =  ENVIRONMENT_DATASET_PATH / GTA_DIR_PATH / "tasks.csv"  # ADD output path
     clear_gta_df.to_csv(output_path)
