@@ -23,16 +23,6 @@ The repository includes:
 The goal is to make **AI agent research accessible with minimal infrastructure requirements**.
 
 
-# Features
-
-- Modular **environment simulation based on datasets**
-- Simple **linear-memory AI agent architecture**
-- Utilities for interacting with **Small Language Models**
-- Example **Supervised Fine-Tuning (SFT)** workflow
-- Designed to run easily in **Google Colab**
-- Lightweight dependency management using **uv**
-
-
 # Repository Structure
 ```
 research/
@@ -65,51 +55,12 @@ research/
 ```
 
 
-# Components
+# Core Components
 
 ## Environments
 
 The `environments` module provides tools to simulate agent environments based on datasets.
 
-### datasets
-
-Contains datasets used to simulate environments for training and evaluating agents.
-
-Example included:
-
-- **GTA_dataset**
-
-This dataset can be used for **fine-tuning agents or simulating interactions**.
-
-Datasets may contain:
-
-- raw dataset files
-- structured environment data
-
----
-
-### datahandling
-
-The `datahandling` module contains utilities for **loading and processing datasets**.
-
-Responsibilities include:
-
-- extracting relevant information from datasets
-- preparing data for the environment simulator
-- serving data to agent classes when required
-
----
-
-### environment_simulation.py
-
-Implements a class to **simulate an environment for the agent**.
-
-This file:
-
-- provides observations to agents
-- validate agent actions
-
----
 
 # AI Agents
 
@@ -123,52 +74,10 @@ Location:
 ai_agents/monoagent/linear_agent.py
 
 
-This agent implements a **simple linear memory architecture**, where:
-
-- interactions are stored sequentially
-- past observations and actions can be used as context
-- prompts are dynamically generated
-
-The agent interacts with a **Small Language Model (SLM)** to determine its next action.
-
----
-
-## Prompts
-
-Located in:
-ai_agents/monoagent/prompts/
-
-
-This directory contains prompt templates used by agents to communicate with the language model.
-
----
-
 # Experiments
 
-The `experiments` directory contains a dummy notebook file demonstrating how to use the framework in Colab.
+The `experiments` directory is intended for small experiments on ai agents. For now it contains a dummy notebook file demonstrating how to use the framework in Colab.
 
-Example included:
-experiments/dummy_experiment/dummy_experiment.ipynb
-
-
-This dummy notebook demonstrates:
-
-- loading the dataset
-- performing **Supervised Fine-Tuning (SFT)** using the GTA dataset
-
-The notebook is designed to run easily in **Google Colab**.
-
----
-
-# Utilities
-
-The `utils` module contains helper functions used across the project.
-
-File:
-
-utils/utils.py
-
----
 
 # Requirements
 
@@ -177,7 +86,6 @@ utils/utils.py
 
 `uv` is used for dependency management and reproducible environments.
 
----
 
 ## Planned Improvements
 
@@ -189,23 +97,3 @@ Planned improvements include:
 - evaluation benchmarks
 - Colab experiments
 - Containerizing the project using Docker for easier deployment
-
----
-
-## Contributing
-
-Contributions, ideas, and experiments are welcome.
-
-You can contribute by:
-
-- adding new agents
-- adding new datasets
-- improving the environment simulator
-- providing new experiment notebooks
-
----
-
-## License
-
-This project is open source.  
-License information will be added soon.
