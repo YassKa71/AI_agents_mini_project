@@ -57,7 +57,7 @@ research/
 
 # Core Components
 
-## Environments
+# Environments
 
 The `environments` module provides tools to simulate agent environments based on datasets.
 
