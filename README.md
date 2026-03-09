@@ -22,7 +22,6 @@ The repository includes:
 
 The goal is to make **AI agent research accessible with minimal infrastructure requirements**.
 
----
 
 # Features
 
@@ -33,9 +32,9 @@ The goal is to make **AI agent research accessible with minimal infrastructure r
 - Designed to run easily in **Google Colab**
 - Lightweight dependency management using **uv**
 
----
 
 # Repository Structure
+```
 research/
 │
 ├── environments/
@@ -63,7 +62,8 @@ research/
 │
 └── tests/
   └──...
----
+```
+
 
 # Components
 
