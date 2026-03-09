@@ -1,5 +1,6 @@
 import re
 import ast
+import json
 from transformers import AutoModelForCausalLM, AutoTokenizer, StoppingCriteriaList, StoppingCriteria
 
 
@@ -75,7 +76,7 @@ class SLM:
     return output
 
 # useful methods
-def parse(output):
+def parse_slm_output(output: str) -> dict:
     """JSON extraction from LLM output."""
     output = output.replace("```json", "")
     output = output.replace("```", "")
@@ -83,3 +84,14 @@ def parse(output):
     result = matches[-1]
     json_result = ast.literal_eval(result)
     return json_result
+
+def get_action(output: str) -> dict:
+    try:
+        parsed_output = parse_slm_output(output)
+        _, _ = parsed_output["name"], parsed_output["arguments"]
+        for argument in parsed_output["arguments"]:
+            _, _ = argument["name"], argument["value"]
+    except (json.JSONDecodeError, ValueError, KeyError, IndexError, TypeError) as e:
+        raise ValueError from e
+    else:
+        return parsed_output

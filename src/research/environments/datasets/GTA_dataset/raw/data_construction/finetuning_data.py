@@ -34,20 +34,25 @@ def generate_completion(dialog):
         "arguments": []
     }
     if "tool_calls" in dialog.keys():
-        thought = "Thought:\n"
-        if "thought" in dialog.keys():
-            thought += dialog["thought"]
-        action = "Action:\n"
-        tool_call["name"] = dialog["tool_calls"][0]["function"]["name"]
-        for name, value in dialog["tool_calls"][0]["function"]["arguments"].items():
-            argument = {"name": name, "value": value}
-            tool_call["arguments"].append(argument)
+        tool_name = dialog["tool_calls"][0]["function"]["name"]
+        if tool_name != "ImageDescription":
+            thought = "Thought:\n"
+            if "thought" in dialog.keys():
+                dialog_thought = dialog["thought"].replace("ImageDescription tool", "image description").replace(
+                    "image description tool", "image description"
+                )
+                thought += dialog_thought
+            action = "Action:\n"
+            tool_call["name"] = tool_name
+            for name, value in dialog["tool_calls"][0]["function"]["arguments"].items():
+                argument = {"name": name, "value": value}
+                tool_call["arguments"].append(argument)
             action += str(tool_call)
-        completion = {"role": "assistant", "content": thought + "\n" + action}
+            completion = {"role": "assistant", "content": thought + "\n" + action}
     return completion
 
 def generate_observation(observation):
-    return {"role": "user", "content": observation}
+    return {"role": "user", "content": f'Observation: {observation}'}
 
 def prompt_completion_per_task(dialogs, task_id, system_prompt, clear_df):
     """
@@ -67,7 +72,7 @@ def prompt_completion_per_task(dialogs, task_id, system_prompt, clear_df):
     samples = []
     history = system_prompt
     for dialog in dialogs[1:]:
-        if dialog["role"] == "tool":
+        if dialog["role"] == "tool" and not dialog.get("name") == "ImageDescription":
             observation = generate_observation(dialog["content"]["content"])
             history.append(observation)
         elif dialog["role"] == "assistant":
@@ -81,7 +86,7 @@ def prompt_completion_per_task(dialogs, task_id, system_prompt, clear_df):
         completion = "Action:\n"
         final_answer = {
             "name": "FinalAnswer",
-            "arguments": [{"name": "answer", "value": sample_clear_df["final_answer"]}]
+            "arguments": [{"name": "final_answer", "value": sample_clear_df["final_answer"]}]
         }
         completion += str(final_answer)
         completion = {"role": "assistant", "content": completion}
@@ -100,7 +105,6 @@ def generate_prompt_completion_dataset(raw_data, clear_df, out_path, prompts):
         system_prompt = generate_system_prompt(task_id, clear_df, prompts)
         dialogs = task["dialogs"]
         samples = prompt_completion_per_task(dialogs, task_id, system_prompt, clear_df)
-        print(samples[0]["task_id"])
         all_samples += samples
     # write each sample in a separate line in the output file
     with out_path.open("w", encoding="utf-8") as out_f:
@@ -115,12 +119,13 @@ if __name__ == "__main__":
     with path.open("r", encoding="utf-8") as f:
         raw_data = json.load(f)
     # load clear GTA dataset
-    clear_df = pd.read_csv("clear_gta.csv")
+    clear_gta_path = RESEARCH_REPO_ROOT / "datasets" / "environment_datasets" / "clear_gta.csv"
+    clear_df = pd.read_csv(clear_gta_path)
     # load prompt files
     prompts_path = RESEARCH_REPO_ROOT / "prompts" / "ReAct_prompts_finetuning.yaml"
     with open(prompts_path) as file:
         prompts = yaml.safe_load(file)
     # create finetuning dataset
-    out_path = RESEARCH_REPO_ROOT / "datasets" / "environment_datasets" / "finetuning_dataset_grpo.jsonl"
+    out_path = RESEARCH_REPO_ROOT / "datasets" / "environment_datasets" / "finetuning_dataset.jsonl"
     generate_prompt_completion_dataset(raw_data, clear_df, out_path, prompts)
 
